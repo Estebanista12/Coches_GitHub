@@ -1,5 +1,45 @@
+class coches:
+    """
+    Representa un coche dsiponible en nuestra lista del concesionario 
+    """
+    def __init__(self, marca, precio, CV, color, combustible, disponible=True):
+        """
+        Constructor para crear nuevas caracterisiticas del coche 
+        """
+        self.id = None
+        self.marca = marca
+        self.precio = precio
+        self.CV = CV
+        self.color = color
+        self.combustible = combustible
+        self.disponible = disponible
+        
+    def __str__(self, marca, precio, CV, color, combustible, disponible=True):
+            return f"marca: {self.marca}, precio: {self.precio} , CV:{self.CV} , color: {self.color} , combustible: {self.combustible} , disponible: {self.disponible}"
+
+# --- CÓDIGO DE PRUEBA ---
+
+#1.Creamos dos objetos de la clase coche
+Coche1 = coches("Mercedes", "25.000€", "250CV","rojo","gasolina","disponible")
+Coche2 = coches ("Audi", "22.000€", "210CV","azul","diesel","disponible")
 
 
+#2.Mostramos los datos del primer coche con print()
+print("--- Mercedes AMG 38 ---") 
+print(f"precio: {Coche1.precio}")
+print(f"CV: {Coche1.CV}")
+print(f"color: {Coche1.color}")
+print(f"combustible: {Coche1.combustible}")
+print(f"ID (Coche1): {Coche1.id}")
+
+
+#3.Hacemos lo mismo con el siguiente coche 
+print("--- Audi A4 s-line ---") 
+print(f"precio: {Coche2.precio}")
+print(f"CV: {Coche2.CV}")
+print(f"color: {Coche2.color}")
+print(f"combustible: {Coche2.combustible}")
+print(f"ID (Coche2): {Coche2.id}")
 
 import tkinter as tk
 
@@ -32,12 +72,12 @@ etiqueta_marca = tk.Label(ventana, text="Marca:")
 campo_Marca = tk.Entry(ventana)
 
 # --- Botones ---
-boton_add = tk.Button(ventana, text="Añadir Tarea")
-boton_update = tk.Button(ventana, text="Modificar Tarea")
-boton_delete = tk.Button(ventana, text="Eliminar Tarea")
+boton_add = tk.Button(ventana, text="Añadir Coche")
+boton_update = tk.Button(ventana, text="Modificar Coche")
+boton_delete = tk.Button(ventana, text="Eliminar Coche")
 
 # --- Lista de Tareas ---
-etiqueta_lista = tk.Label(ventana, text="Tareas Pendientes:")
+etiqueta_lista = tk.Label(ventana, text="Coches disponibles:")
 lista_tareas = tk.Listbox(ventana, width=60, height=10)
 
 # ... (código del paso 4)
@@ -77,4 +117,3 @@ lista_tareas.grid(row=5, column=0, columnspan=4, padx=10, pady=5, sticky="nsew")
 
 # 4. Iniciar el bucle de la aplicación
 ventana.mainloop()
-
