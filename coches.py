@@ -47,6 +47,7 @@ import tkinter as tk
 ventana = tk.Tk()
 ventana.title("Liste De Coches")
 ventana.geometry("820x400")  # Ancho x Alto
+ventana.configure(bg="#B5E8E5")
 
 # Aquí irán los pasos 2 y 3...
 
@@ -72,22 +73,33 @@ etiqueta_marca = tk.Label(ventana, text="Marca:")
 campo_Marca = tk.Entry(ventana)
 
 # --- Botones ---
-boton_add = tk.Button(ventana, text="Añadir Coche")
-boton_update = tk.Button(ventana, text="Modificar Coche")
-boton_delete = tk.Button(ventana, text="Eliminar Coche")
+
+def añadir():
+    
+    print("as pulsado añadir")
+
+boton_add = tk.Button(ventana, text="Añadir Coche", command= añadir)
+boton_add.configure(bg="#7DF736")
+
+
+def modificar():
+    
+    print("as pulsado modificar")
+
+boton_update = tk.Button(ventana, text="Modificar Coche", command=modificar)
+boton_update.configure(bg="#F7F436")
+
+def eliminar():
+    
+    print("as pulsado eliminar")
+
+boton_delete = tk.Button(ventana, text="Eliminar Coche", command=eliminar)
+boton_delete.configure(bg="#F77036")
 
 # --- Lista de Tareas ---
 etiqueta_lista = tk.Label(ventana, text="Coches disponibles:")
 lista_tareas = tk.Listbox(ventana, width=60, height=10)
 
-# ... (código del paso 4)
-
-#Paso 3: Posicionar los Widgets con grid()
-
-#Este es el paso clave. Usamos grid() para colocar cada widget en su fila y columna, usando las opciones que aprendimos para que quede ordenado.
-
-
-# ... (después de crear los widgets)
 
 # 3. Posicionamiento con Grid
 # --- Formulario de Entrada ---
