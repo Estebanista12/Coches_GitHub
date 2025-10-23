@@ -15,7 +15,7 @@ class coches:
         self.disponible = disponible
         
     def __str__(self, marca, precio, CV, color, combustible, disponible=True):
-            return f"marca: {self.marca}, precio: {self.precio} , CV:{self.CV} , color: {self.color} , combustible: {self.combustible} , disponible: {self.disponible}"
+            return f"marca: {self.marca}, precio: {self.precio} , CV: {self.CV} , color: {self.color} , combustible: {self.combustible} , disponible: {self.disponible}"
 
 # --- CÓDIGO DE PRUEBA ---
 
