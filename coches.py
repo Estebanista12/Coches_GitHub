@@ -47,6 +47,7 @@ import tkinter as tk
 ventana = tk.Tk()
 ventana.title("Liste De Coches")
 ventana.geometry("820x400")  # Ancho x Alto
+ventana.configure(bg="#B5E8E5")
 
 # Aquí irán los pasos 2 y 3...
 
@@ -73,8 +74,11 @@ campo_Marca = tk.Entry(ventana)
 
 # --- Botones ---
 boton_add = tk.Button(ventana, text="Añadir Coche")
+boton_add.configure(bg="#F7F436")
 boton_update = tk.Button(ventana, text="Modificar Coche")
+boton_update.configure(bg="#F7F436")
 boton_delete = tk.Button(ventana, text="Eliminar Coche")
+boton_delete.configure(bg="#F7F436")
 
 # --- Lista de Tareas ---
 etiqueta_lista = tk.Label(ventana, text="Coches disponibles:")

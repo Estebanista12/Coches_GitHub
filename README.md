@@ -80,3 +80,4 @@ lista_tareas.grid(row=5, column=0, columnspan=4, padx=10, pady=5, sticky="nsew")
 # 4. Iniciar el bucle de la aplicación
 ventana.mainloop()
 
+
