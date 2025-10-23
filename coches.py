@@ -44,10 +44,12 @@ print(f"ID (Coche2): {Coche2.id}")
 import tkinter as tk
 
 # 1. Ventana principal
-ventana = tk.Tk()
-ventana.title("Liste De Coches")
-ventana.geometry("820x400")  # Ancho x Alto
-ventana.configure(bg="#B5E8E5")
+class App:
+    def __init__(self, ventana)
+     ventana = tk.Tk()
+        ventana.title("Liste De Coches")
+        ventana.geometry("820x400")  # Ancho x Alto
+        ventana.configure(bg="#B5E8E5")
 
 # Aquí irán los pasos 2 y 3...
 
@@ -128,4 +130,7 @@ etiqueta_lista.grid(row=4, column=0, padx=10, pady=5, sticky="w")
 lista_tareas.grid(row=5, column=0, columnspan=4, padx=10, pady=5, sticky="nsew")
 
 # 4. Iniciar el bucle de la aplicación
-ventana.mainloop()
+if __name__ == "__main__":
+    ventana_principal = tk.Tk()
+    app = App(ventana_principal)
+     ventana.mainloop()
