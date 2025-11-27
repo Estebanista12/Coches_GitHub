@@ -69,9 +69,7 @@ class App:
         self.combustible = tk.Entry(frame_form)
         self.combustible.grid(row=2, column=3)
 
-        # ========================
-        #       BOTONES
-        # ========================
+       
         tk.Button(frame_botones, text="Añadir Coche", bg="#7DF736",
                   command=self.añadir).grid(row=0, column=0, padx=10)
 
@@ -115,7 +113,7 @@ class App:
 
         for c in coches:
             id_c, marca, modelo, precio, cv, color, combustible, disp = c
-            estado = "✔ Disponible" if disp else "✘ No Disponible"
+            estado = " Disponible" if disp else "No Disponible"
             texto = f"{id_c} - {marca} {modelo} | {precio}€ | {cv}CV | {color} | {combustible} | {estado}"
             self.lista.insert(tk.END, texto)
 
