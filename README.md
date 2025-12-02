@@ -1,6 +1,3 @@
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> d0df8ddb56780032a44ba5b80f7da2b195343ed9
+                                                  TABLA DE COCHES
+                    Es un código hecho por Noel Sevilla, Francisco de Paula y Esteban Martín
+Esta creado con el fin de mostrar los coches disponibles de un concesionario y poder tanto añadir como eliminar y modificarlos
