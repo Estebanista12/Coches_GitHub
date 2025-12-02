@@ -21,8 +21,8 @@ class DatabaseManager:
         """)
         self.conexion.commit()
 
-    def añadir(self, id, marca, modelo, precio, cv, color, combustible):
-        self.cursor.execute ("INSERT INTO COCHES (marca, modelo,precio,cv,color,combustible) VALUES (?,?,?)",(id, marca, modelo, precio, cv, color, combustible, ))
+    def añadir(self, marca, modelo, precio, cv, color, combustible):
+        self.cursor.execute ("INSERT INTO COCHES (marca, modelo,precio,cv,color,combustible) VALUES (?,?,?)",(marca, modelo, precio, cv, color, combustible, ))
             
 
         self.conexion.commit()
