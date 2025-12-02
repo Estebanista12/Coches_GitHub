@@ -30,10 +30,12 @@ class App:
         self.ventana.configure(bg="#C8F7F0")
 
         # Base de datos
+
         self.conexion = sqlite3.connect("coches.db")
         self.cursor = self.conexion.cursor()
         self.crear_tabla()
 
+        # Frames para organizar la interfaz
 
         frame_form = tk.Frame(self.ventana, pady=10, bg="#C8F7F0")
         frame_botones = tk.Frame(self.ventana, pady=10, bg="#C8F7F0")
@@ -43,7 +45,8 @@ class App:
         frame_botones.pack()
         frame_lista.pack()
 
-
+        # Datos del coche
+        
         tk.Label(frame_form, text="Marca:", bg="#C8F7F0").grid(row=0, column=0)
         self.marca = tk.Entry(frame_form)
         self.marca.grid(row=0, column=1)
@@ -68,19 +71,25 @@ class App:
         self.combustible = tk.Entry(frame_form)
         self.combustible.grid(row=2, column=3)
 
+        # Botones
+
+        #Botón de añadir 
         tk.Button(frame_botones, text="Añadir Coche", bg="#71FF1F",
                   command=self.añadir).grid(row=0, column=0, padx=10)
 
+        # Botón de modificar 
         tk.Button(frame_botones, text="Modificar Coche", bg="#F7F436",
                   command=self.modificar).grid(row=0, column=1, padx=10)
-
+        
+        # Botón de eliminar
         tk.Button(frame_botones, text="Eliminar Coche", bg="#F77036",
                   command=self.eliminar).grid(row=0, column=2, padx=10)
-
+        
+        # Botón de cambiar disponibilidad
         tk.Button(frame_botones, text="Cambiar Disponibilidad", bg="#36A2F7",
                   command=self.cambiar_estado).grid(row=0, column=3, padx=10)
 
-
+        # Lista de coches
         tk.Label(frame_lista, text="Listado de Coches:", bg="#C8F7F0").pack()
         self.lista = tk.Listbox(frame_lista, width=100, height=14)
         self.lista.pack()
@@ -88,7 +97,7 @@ class App:
 
         self.actualizar_lista()
 
-
+    # Creación de Tabla SQL
     def crear_tabla(self):
         self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS Coche (
@@ -104,6 +113,9 @@ class App:
         """)
         self.conexion.commit()
 
+
+    # Acrualizar Lista
+
     def actualizar_lista(self):
         self.lista.delete(0, tk.END)
         self.cursor.execute("SELECT * FROM Coche")
@@ -115,6 +127,7 @@ class App:
             texto = f"{id_c} - {marca} {modelo} | {precio}€ | {cv}CV | {color} | {combustible} | {estado}"
             self.lista.insert(tk.END, texto)
 
+    # Añadir Coche
 
     def añadir(self):
         datos = (
@@ -135,12 +148,14 @@ class App:
         self.actualizar_lista()
         self.limpiar()
 
+    # Obtener ID del coche seleccionado
     def get_id(self):
         try:
             return int(self.lista.get(self.lista.curselection()).split(" - ")[0])
         except:
             return None
-
+        
+    # Cargar datos de un coche al formulario
     def cargar_coche(self, event):
         id_c = self.get_id()
         if id_c:
@@ -163,6 +178,7 @@ class App:
             self.color.insert(0, color)
             self.combustible.insert(0, combustible)
 
+    # Modificar 
     def modificar(self):
         id_c = self.get_id()
         if not id_c:
@@ -182,6 +198,8 @@ class App:
         self.conexion.commit()
         self.actualizar_lista()
 
+    # Eliminar   
+
     def eliminar(self):
         id_c = self.get_id()
         if not id_c:
@@ -193,6 +211,8 @@ class App:
             self.conexion.commit()
             self.actualizar_lista()
             self.limpiar()
+
+    # Cambiar estado
 
     def cambiar_estado(self):
         id_c = self.get_id()
@@ -208,6 +228,7 @@ class App:
         self.conexion.commit()
         self.actualizar_lista()
 
+    #Limpiar formulario
     def limpiar(self):
         self.marca.delete(0, tk.END)
         self.modelo.delete(0, tk.END)
