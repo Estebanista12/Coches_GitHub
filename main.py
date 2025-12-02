@@ -68,7 +68,7 @@ class App:
         self.combustible = tk.Entry(frame_form)
         self.combustible.grid(row=2, column=3)
 
-        tk.Button(frame_botones, text="Añadir Coche", bg="#7DF736",
+        tk.Button(frame_botones, text="Añadir Coche", bg="#71FF1F",
                   command=self.añadir).grid(row=0, column=0, padx=10)
 
         tk.Button(frame_botones, text="Modificar Coche", bg="#F7F436",
