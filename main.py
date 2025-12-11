@@ -104,7 +104,7 @@ class App:
         """)
         self.conexion.commit()
 
-    # VALIDACIÓN (MEJORA 1)
+    # VALIDACIÓN 
     def validar(self):
         if not all([self.marca.get(), self.modelo.get(), self.precio.get(), self.cv.get()]):
             messagebox.showerror("Error", "Todos los campos obligatorios deben estar completos.")
