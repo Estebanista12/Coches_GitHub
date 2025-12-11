@@ -21,7 +21,6 @@ class Coche:
         return f"{self.marca} {self.modelo} - {self.color} - {self.precio}€ - {self.CV}CV - {estado}"
 
 
-
 class App:
     def __init__(self, ventana):
         self.ventana = ventana
@@ -30,13 +29,11 @@ class App:
         self.ventana.configure(bg="#C8F7F0")
 
         # Base de datos
-
         self.conexion = sqlite3.connect("coches.db")
         self.cursor = self.conexion.cursor()
         self.crear_tabla()
 
-        # Frames para organizar la interfaz
-
+        # Frames
         frame_form = tk.Frame(self.ventana, pady=10, bg="#C8F7F0")
         frame_botones = tk.Frame(self.ventana, pady=10, bg="#C8F7F0")
         frame_lista = tk.Frame(self.ventana, pady=10, bg="#C8F7F0")
@@ -45,8 +42,7 @@ class App:
         frame_botones.pack()
         frame_lista.pack()
 
-        # Datos del coche
-        
+        # Formulario
         tk.Label(frame_form, text="Marca:", bg="#C8F7F0").grid(row=0, column=0)
         self.marca = tk.Entry(frame_form)
         self.marca.grid(row=0, column=1)
@@ -72,24 +68,19 @@ class App:
         self.combustible.grid(row=2, column=3)
 
         # Botones
-
-        #Botón de añadir 
         tk.Button(frame_botones, text="Añadir Coche", bg="#71FF1F",
                   command=self.añadir).grid(row=0, column=0, padx=10)
 
-        # Botón de modificar 
         tk.Button(frame_botones, text="Modificar Coche", bg="#F7F436",
                   command=self.modificar).grid(row=0, column=1, padx=10)
-        
-        # Botón de eliminar
+
         tk.Button(frame_botones, text="Eliminar Coche", bg="#F77036",
                   command=self.eliminar).grid(row=0, column=2, padx=10)
-        
-        # Botón de cambiar disponibilidad
+
         tk.Button(frame_botones, text="Cambiar Disponibilidad", bg="#36A2F7",
                   command=self.cambiar_estado).grid(row=0, column=3, padx=10)
 
-        # Lista de coches
+        # Lista
         tk.Label(frame_lista, text="Listado de Coches:", bg="#C8F7F0").pack()
         self.lista = tk.Listbox(frame_lista, width=100, height=14)
         self.lista.pack()
@@ -97,7 +88,7 @@ class App:
 
         self.actualizar_lista()
 
-    # Creación de Tabla SQL
+    # Crear tabla SQL
     def crear_tabla(self):
         self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS Coche (
@@ -113,9 +104,23 @@ class App:
         """)
         self.conexion.commit()
 
+    # VALIDACIÓN (MEJORA 1)
+    def validar(self):
+        if not all([self.marca.get(), self.modelo.get(), self.precio.get(), self.cv.get()]):
+            messagebox.showerror("Error", "Todos los campos obligatorios deben estar completos.")
+            return False
 
-    # Acrualizar Lista
+        if not self.precio.get().isdigit():
+            messagebox.showerror("Error", "El precio debe ser un número.")
+            return False
 
+        if not self.cv.get().isdigit():
+            messagebox.showerror("Error", "Los CV deben ser número entero.")
+            return False
+
+        return True
+
+    # Actualizar lista
     def actualizar_lista(self):
         self.lista.delete(0, tk.END)
         self.cursor.execute("SELECT * FROM Coche")
@@ -127,17 +132,15 @@ class App:
             texto = f"{id_c} - {marca} {modelo} | {precio}€ | {cv}CV | {color} | {combustible} | {estado}"
             self.lista.insert(tk.END, texto)
 
-    # Añadir Coche
-
+    # Añadir coche
     def añadir(self):
+        if not self.validar():
+            return
+
         datos = (
             self.marca.get(), self.modelo.get(), self.precio.get(),
             self.cv.get(), self.color.get(), self.combustible.get()
         )
-
-        if not all(datos):
-            messagebox.showwarning("Error", "Todos los campos deben estar completos.")
-            return
 
         self.cursor.execute("""
         INSERT INTO Coche (marca, modelo, precio, cv, color, combustible)
@@ -146,16 +149,17 @@ class App:
 
         self.conexion.commit()
         self.actualizar_lista()
+        messagebox.showinfo("Éxito", "Coche añadido correctamente.") 
         self.limpiar()
 
-    # Obtener ID del coche seleccionado
+    # Obtener ID
     def get_id(self):
         try:
             return int(self.lista.get(self.lista.curselection()).split(" - ")[0])
         except:
             return None
-        
-    # Cargar datos de un coche al formulario
+
+    # Cargar coche en formulario
     def cargar_coche(self, event):
         id_c = self.get_id()
         if id_c:
@@ -178,11 +182,14 @@ class App:
             self.color.insert(0, color)
             self.combustible.insert(0, combustible)
 
-    # Modificar 
+    # Modificar coche
     def modificar(self):
         id_c = self.get_id()
         if not id_c:
-            messagebox.showinfo("Error", "Selecciona un coche.")
+            messagebox.showerror("Error", "Selecciona un coche.")
+            return
+
+        if not self.validar():
             return
 
         datos = (
@@ -197,13 +204,13 @@ class App:
 
         self.conexion.commit()
         self.actualizar_lista()
+        messagebox.showinfo("Éxito", "Coche modificado correctamente.")
 
-    # Eliminar   
-
+    # Eliminar coche
     def eliminar(self):
         id_c = self.get_id()
         if not id_c:
-            messagebox.showinfo("Error", "Selecciona un coche para eliminar.")
+            messagebox.showerror("Error", "Selecciona un coche para eliminar.")
             return
 
         if messagebox.askyesno("Confirmar", "¿Eliminar este coche?"):
@@ -211,13 +218,13 @@ class App:
             self.conexion.commit()
             self.actualizar_lista()
             self.limpiar()
+            messagebox.showinfo("Éxito", "Coche eliminado correctamente.")
 
-    # Cambiar estado
-
+    # Cambiar disponibilidad
     def cambiar_estado(self):
         id_c = self.get_id()
         if not id_c:
-            messagebox.showinfo("Error", "Selecciona un coche.")
+            messagebox.showerror("Error", "Selecciona un coche.")
             return
 
         self.cursor.execute("SELECT disponible FROM Coche WHERE id=?", (id_c,))
@@ -227,8 +234,9 @@ class App:
         self.cursor.execute("UPDATE Coche SET disponible=? WHERE id=?", (nuevo, id_c))
         self.conexion.commit()
         self.actualizar_lista()
+        messagebox.showinfo("OK", "Disponibilidad actualizada.") 
 
-    #Limpiar formulario
+    # Limpiar formulario
     def limpiar(self):
         self.marca.delete(0, tk.END)
         self.modelo.delete(0, tk.END)
@@ -236,7 +244,6 @@ class App:
         self.cv.delete(0, tk.END)
         self.color.delete(0, tk.END)
         self.combustible.delete(0, tk.END)
-
 
 
 if __name__ == "__main__":
