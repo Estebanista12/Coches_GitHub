@@ -53,9 +53,3 @@ class DatabaseManager:
 
         self.cursor.execute("UPDATE Coche SET disponible=? WHERE id=?", (nuevo, id_c))
         self.conexion.commit()
-    
-
-  
-
-
-
