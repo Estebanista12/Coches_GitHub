@@ -1,0 +1,29 @@
+#titulo {
+    color: rgb(87, 87, 124);
+    text-align: center;
+}
+#title {
+    color: rgb(82, 82, 187);
+    text-align: center;
+}
+.coche{
+    color: #a59393; 
+    font-weight: bold;
+    background-color: white; 
+}
+
+section {
+    display: flex;       /* Activa el modo flexible para sus hijos */
+    flex-wrap: wrap;    /* Si no caben, saltan a la siguiente línea */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    gap: 20px;          /* Crea un pasillo de separación entre tarjetas */
+}
+
+/* Las cajas de cada elemento (los article) */
+article {
+    width: 300px;       /* Ancho fijo para que parezcan tarjetas */
+    background-color: rgb(185, 178, 178);
+    padding: 15px;
+    border: 1px solid #141414;
+}
+
