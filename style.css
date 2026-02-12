@@ -1,29 +1,62 @@
 #titulo {
-    color: rgb(87, 87, 124);
+    color: #1A1A1A;
     text-align: center;
 }
 #title {
-    color: rgb(82, 82, 187);
+    color: #1A1A1A;
     text-align: center;
 }
+
+
+#introducción{
+    color: #1A1A1A;
+    text-align: center;
+}
+
+
+
 .coche{
-    color: #a59393; 
-    font-weight: bold;
-    background-color: white; 
+    color:  #1C3A2E; 
+    font-weight: bold; 
 }
 
 section {
-    display: flex;       /* Activa el modo flexible para sus hijos */
-    flex-wrap: wrap;    /* Si no caben, saltan a la siguiente línea */
-    justify-content: center; /* Centra las tarjetas horizontalmente */
-    gap: 20px;          /* Crea un pasillo de separación entre tarjetas */
+    display: flex;      
+    flex-wrap: wrap;    
+    justify-content: center;
+    gap: 20px;         
 }
 
-/* Las cajas de cada elemento (los article) */
+
 article {
-    width: 300px;       /* Ancho fijo para que parezcan tarjetas */
-    background-color: rgb(185, 178, 178);
+    width: 300px;       
+    background-color: #BFA14A;
     padding: 15px;
     border: 1px solid #141414;
 }
 
+article {
+    width: 300px;
+}
+
+
+@media (max-width: 600px) {
+    article {
+        width: 100%; 
+    }
+    
+    h1 {
+        font-size: 1.5rem; 
+    }
+}
+
+main{ 
+    max-width: 2000px;         
+    margin: auto;
+    margin-top: 20px; 
+}
+
+body {
+    background-color:#D6C6B8;
+    font-family: sans-serif;
+}
