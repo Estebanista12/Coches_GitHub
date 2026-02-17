@@ -1,29 +1,56 @@
-#titulo {
-    color: rgb(87, 87, 124);
-    text-align: center;
-}
-#title {
-    color: rgb(82, 82, 187);
-    text-align: center;
-}
-.coche{
-    color: #a59393; 
-    font-weight: bold;
-    background-color: white; 
+#titulo{color: #EAEAEA; 
+text-align: center; 
 }
 
-section {
-    display: flex;       /* Activa el modo flexible para sus hijos */
-    flex-wrap: wrap;    /* Si no caben, saltan a la siguiente línea */
-    justify-content: center; /* Centra las tarjetas horizontalmente */
-    gap: 20px;          /* Crea un pasillo de separación entre tarjetas */
-}
+#title { 
+    color: #00B4D8; /* Azul eléctrico elegante */
+    text-align: center; 
+} 
 
-/* Las cajas de cada elemento (los article) */
-article {
-    width: 300px;       /* Ancho fijo para que parezcan tarjetas */
-    background-color: rgb(185, 178, 178);
-    padding: 15px;
-    border: 1px solid #141414;
-}
+#introducción{ 
+    color: #90E0EF; /* Azul hielo exótico */
+    text-align: center; 
+} 
 
+.coche{ 
+    color: #06D6A0; /* Verde esmeralda vibrante */
+    font-weight: bold; 
+} 
+
+section { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 20px; 
+} 
+
+article { 
+    width: 300px; 
+    background-color: #1B1B2F; /* Azul petróleo oscuro */
+    padding: 15px; 
+    border: 1px solid #C77DFF; /* Morado brillante */
+} 
+
+article { 
+    width: 300px; 
+} 
+
+@media (max-width: 600px) { 
+    article { 
+        width: 100%; 
+    } 
+    h1 { 
+        font-size: 1.5rem; 
+    } 
+} 
+
+main{ 
+    max-width: 2000px; 
+    margin: auto; 
+    margin-top: 20px; 
+} 
+
+body { 
+    background-color:#0A0A0A; /* Negro intenso */
+    font-family: sans-serif; 
+}
