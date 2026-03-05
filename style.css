@@ -1,3 +1,4 @@
+/*Formato y colores del título*/
 #titulo {
     color:#FF9B51;
     text-align: center;
@@ -22,7 +23,7 @@
 }
 
 
-
+/* Estilo para cada coche */
 .coche{
     color:  #25343F; 
     font-weight: bold; 
@@ -36,7 +37,7 @@ section {
     margin-bottom: 30px;         
 }
 
-
+/*cajas de cada coche*/
 article {
     width: 300px;       
     background-color: #BFC9D1;
@@ -47,6 +48,7 @@ article {
     transition: transform 0.3s ease; 
 }
 
+/*transcisión al pasar el ratón*/
 article:hover {
     transform: scale(1.05);   
 }
@@ -77,9 +79,11 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+/*estilo de imágenes*/
 img {
     border-radius: 8px;
     margin-top: 10px;
+    align-items: center;
 }
 
 header {
