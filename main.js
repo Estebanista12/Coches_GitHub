@@ -5,3 +5,12 @@ miBoton.addEventListener("click", function() {
 });
 
 
+//transición combinada con css//
+const coches = document.querySelectorAll("article");
+
+coches.forEach(function(coche){
+    coche.addEventListener("click", function(){
+        coche.classList.toggle("activo");
+    });
+});
+
