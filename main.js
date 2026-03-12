@@ -5,6 +5,7 @@ miBoton.addEventListener("click", function() {
 });
 
 
+
 //transición combinada con css//
 const coches = document.querySelectorAll("article");
 
@@ -13,4 +14,6 @@ coches.forEach(function(coche){
         coche.classList.toggle("activo");
     });
 });
+
+
 
