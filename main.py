@@ -91,7 +91,7 @@ class App:
         self.color.grid(row=2, column=1)
 
         tk.Label(frame_form, text="Combustible:", bg="#C8F7F0").grid(row=2, column=2)
-        self.combustible = ttk.Combobox(frame_form, values=["Gasolina", "Diésel", "Eléctrico", "Híbrido"], state="readonly")
+        self.combustible = ttk.Combobox(frame_form, values=["Gasolina", "Diésel"], state="readonly")
         self.combustible.grid(row=2, column=3)
         self.combustible.current(0)
 
@@ -99,7 +99,7 @@ class App:
         self.fecha = tk.Entry(frame_form)
         self.fecha.grid(row=3, column=1)
 
-        # BOTONES (sin JSON)
+        # BOTONES 
         tk.Button(frame_botones, text="Añadir Coche", bg="#71FF1F", command=self.añadir).grid(row=0, column=0, padx=10)
         tk.Button(frame_botones, text="Modificar Coche", bg="#F7F436", command=self.modificar).grid(row=0, column=1, padx=10)
         tk.Button(frame_botones, text="Eliminar Coche", bg="#F77036", command=self.eliminar).grid(row=0, column=2, padx=10)
