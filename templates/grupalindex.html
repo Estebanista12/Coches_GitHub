@@ -5,17 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto Coches</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     
 </head>
 <body>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
 
 
     <header>
         <!-- Este bloque contendrá el logo y el nombre de la App -->
-        <img src="logo.png" width="140">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="140">
+        
         <h1 id="titulo"> CONCESIONARIO MIGAJA</h1> 
       
     </header>
@@ -56,7 +59,8 @@
                         </ul>
                     </li>
                 </ul>
-                <img src="AMG.jpg"alt="MERCEDES AMG" width="200">
+                <img src="{{ url_for('static', filename='img/AMG.jpg') }}" alt="MERCEDES AMG" width="200">
+                
                 
             </article>
 
@@ -75,7 +79,8 @@
                         </ul>
                     </li>
                 </ul>
-                <img src="audi.jpg"alt="AUDI" width="200">
+                <img src="{{ url_for('static', filename='img/audi.jpg') }}" alt="AUDI" width="200">
+                
                 
             </article>
 
@@ -95,12 +100,20 @@
                         </ul>
                     </li>
                 </ul>
-                <img src="lambo.jpg"alt="LAMBORGINI" width="200">
+                <img src="{{ url_for('static', filename='img/lambo.jpg') }}" alt="Lamborgini" width="200">
+                
                 
             </article>
-
+        
         <section>
-         
+    
+            
+
+            <ul>
+                {% for item in items %}
+                    <li>{{ item.nombre }} - Categoría: {{ item.categoria }}</li>
+                {% endfor %}
+            </ul>
     </main>
     <hr>
     <!-- Final de la página donde se encuentra el botón de modo noche-->
