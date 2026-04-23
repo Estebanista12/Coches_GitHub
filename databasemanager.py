@@ -17,7 +17,8 @@ class DatabaseManager:
             cv TEXT,
             color TEXT,
             combustible TEXT,
-            disponible INTEGER DEFAULT 1
+            disponible INTEGER DEFAULT 1,
+            imagen TEXT
         )
         """)
         self.conexion.commit()

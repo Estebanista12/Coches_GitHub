@@ -1,18 +1,37 @@
 from flask import Flask, render_template
+from databasemanager import DatabaseManager
 
 app = Flask(__name__)
 
-@app.route("/coleccion")
-def ver_coleccion():
-    # Creamos una lista de diccionarios con datos de prueba
-    mis_favoritos = [
-        {"nombre": "Mercedes AMG", "motivo": "ESTEBAN"},
-        {"nombre": "AUDI", "motivo": "CABALLO"},
-        {"nombre": "LAMBORGINI", "motivo": "PESCADO"}
-    ]
-    # Enviamos la lista completa a la plantilla con el nombre 'items'
-    return render_template("grupalindex.html", items=mis_favoritos)
 
-if __name__ == "__main__":
-    # Arrancamos el servidor en modo debug para que se reinicie solo al guardar cambios
+@app.route('/coleccion')
+def ver_coleccion():
+    """Lee coches desde la base de datos SQLite y los pasa a la plantilla.
+
+    Abre la conexión con DatabaseManager, obtiene las filas y cierra la conexión.
+    """
+    db = DatabaseManager('coches.db')
+    try:
+        filas = db.obtener_coches()
+        items = []
+        for fila in filas:
+            id_c, marca, modelo, precio, cv, color, combustible, fecha, disponible = fila, 
+            items.append({
+                'id': id_c,
+                'nombre': f"{marca} {modelo}",
+                'marca': marca,
+                'modelo': modelo,
+                'precio': precio,
+                'cv': cv,
+                'color': color,
+                'combustible': combustible,
+                'fecha': fecha,
+                'disponible': bool(disponible),
+                
+            })
+        return render_template('grupalindex.html', items=items)
+    finally:
+        db.close()
+
+if __name__ == '__main__':
     app.run(debug=True)

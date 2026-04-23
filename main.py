@@ -6,7 +6,7 @@ from databasemanager import DatabaseManager
 
 
 class Coche:
-    def __init__(self, marca, modelo, precio, CV, color, combustible, disponible=True):
+    def __init__(self, marca, modelo, precio, CV, color, combustible, disponible=True, imagen=None):
         self.id = None
         self.marca = marca
         self.modelo = modelo
@@ -15,6 +15,7 @@ class Coche:
         self.color = color
         self.combustible = combustible
         self.disponible = disponible
+        self.imagen = imagen
 
     def __str__(self):
         estado = "Disponible" if self.disponible else "No Disponible"

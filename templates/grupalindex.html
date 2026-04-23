@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto Coches</title>
+    <!-- Hoja de estilos servida desde /static/css/style.css -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
 </head>
 <body>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,15 +104,23 @@
                 
             </article>
         
+
+
+            
         <section>
     
-            
+        <ul>
 
-            <ul>
-                {% for item in items %}
-                    <li>{{ item.nombre }} - Categoría: {{ item.categoria }}</li>
-                {% endfor %}
-            </ul>
+        
+            {% for item in items %}
+                <li>{{ item.id }} - marca: {{ item.marca }} -modelo: {{ item. modelo}} -precio: {{item.precio}} -cv: {{item.cv}} -color:{{item.color}} -combustible: {{item.combustible}} -disponible: {{item.disponible}}
+                </li>
+            {% endfor %}
+
+
+        </ul>      
+
+
     </main>
     <hr>
     <!-- Final de la página donde se encuentra el botón de modo noche-->
@@ -126,8 +133,8 @@
         <em>+34 6789578</em>
         <a href="https://www.pexels.com/es-es/buscar/coches%20deportivos%20mercedes/">Más Información</a>
     </footer>
-    <script src="main.js"></script>
+    <!-- Cargar el script desde la carpeta static (evita rutas relativas incorrectas) -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 <strong>Noel, Francisco, Esteban</strong>
 </html>
-<script src="main.js"></script>
