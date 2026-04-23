@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+
+        
+    {% for item in items %}
+        <li>{{ item.id }} - marca: {{ item.marca }} -modelo: {{ item. modelo}} -precio: {{item.precio}} -cv: {{item.cv}} -color:{{item.color}} -combustible: {{item.combustible}} -disponible: {{item.disponible}}
+        </li>
+    {% endfor %}
+
+
+    </ul>
+</body>
+</html>

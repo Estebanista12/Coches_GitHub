@@ -1,10 +1,11 @@
+/*Formato y colores del título*/
 #titulo {
     color:#FF9B51;
     text-align: center;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 3rem;           /* más grande */
-    letter-spacing: 2px;       /* separa letras */
+    font-size: 3rem;          
+    letter-spacing: 2px;     
     text-shadow: 2px 2px 8px rgba(0,0,0,0.3); 
 }
 
@@ -22,7 +23,7 @@
 }
 
 
-
+/* Estilo para cada coche */
 .coche{
     color:  #25343F; 
     font-weight: bold; 
@@ -36,7 +37,7 @@ section {
     margin-bottom: 30px;         
 }
 
-
+/*cajas de cada coche*/
 article {
     width: 300px;       
     background-color: #BFC9D1;
@@ -47,6 +48,7 @@ article {
     transition: transform 0.3s ease; 
 }
 
+/*transcisión al pasar el ratón*/
 article:hover {
     transform: scale(1.05);   
 }
@@ -75,11 +77,15 @@ main{
 body {
     background-color:#EAEFEF;
     font-family: 'Poppins', sans-serif;
+    color: rgb(0, 0, 0);
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+/*estilo de imágenes*/
 img {
     border-radius: 8px;
     margin-top: 10px;
+    align-items: center;
 }
 
 header {
@@ -93,4 +99,40 @@ header {
 
 .logo {
     width: 60px;
+}
+
+/*Cambio a modo noche*/
+body.noche {
+  background-color: rgb(94, 93, 93);
+  color: white;
+  
+}
+
+
+/*Trancisión combinada con js*/
+article.activo{
+    transform: scale(1.08);
+    background-color: #fca664;
+    transition: transform 2s ease, background-color 2s ease;
+}
+
+
+
+.modal {
+  display: none; /* oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* fondo oscuro */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+  text-align: center;
 }
