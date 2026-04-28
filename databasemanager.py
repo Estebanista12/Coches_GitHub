@@ -30,34 +30,34 @@ class DatabaseManager:
             self.cursor.execute("ALTER TABLE Coche ADD COLUMN fecha TEXT")
             self.conexion.commit()
 
-    def añadir(self, marca, modelo, precio, cv, color, combustible, fecha, imagen):
+    def añadir(self, marca, modelo, precio, cv, color, combustible, fecha):
         self.cursor.execute("""
-        INSERT INTO Coche (marca, modelo, precio, cv, color, combustible, fecha, imagen)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (marca, modelo, precio, cv, color, combustible, fecha, imagen))
+        INSERT INTO Coche (marca, modelo, precio, cv, color, combustible, fecha)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (marca, modelo, precio, cv, color, combustible, fecha))
         self.conexion.commit()
 
     def obtener_coches(self, termino_busqueda=None):
         if termino_busqueda:
             termino = f"%{termino_busqueda}%"
             self.cursor.execute("""
-            SELECT id, marca, modelo, precio, cv, color, combustible, fecha, disponible, imagen
+            SELECT id, marca, modelo, precio, cv, color, combustible, fecha, disponible
             FROM Coche
             WHERE marca LIKE ? OR modelo LIKE ? OR color LIKE ?
             """, (termino, termino, termino))
         else:
             self.cursor.execute("""
-            SELECT id, marca, modelo, precio, cv, color, combustible, fecha, disponible, imagen
+            SELECT id, marca, modelo, precio, cv, color, combustible, fecha, disponible
             FROM Coche
             """)
         return self.cursor.fetchall()
 
-    def modificar(self, marca, modelo, precio, cv, color, combustible, fecha, id_c, imagen):
+    def modificar(self, marca, modelo, precio, cv, color, combustible, fecha, id_c):
         self.cursor.execute("""
         UPDATE Coche 
-        SET marca=?, modelo=?, precio=?, cv=?, color=?, combustible=?, fecha=?, imagen=?
+        SET marca=?, modelo=?, precio=?, cv=?, color=?, combustible=?, fecha=?
         WHERE id=?
-        """, (marca, modelo, precio, cv, color, combustible, fecha, imagen, id_c))
+        """, (marca, modelo, precio, cv, color, combustible, fecha, id_c))
         self.conexion.commit()
 
     def eliminar(self, id_c):

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Coches</title>
+    <!-- Hoja de estilos servida desde /static/css/style.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+
+
+    <header>
+        <!-- Este bloque contendrá el logo y el nombre de la App -->
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="140">
+        
+        <h1 id="titulo"> CONCESIONARIO MIGAJA</h1> 
+      
+    </header>
+    <p id="introducción">Si estás buscando coches de alta calidad estás en el sitio indicado, ya que contamos con un gran catálogo de vehículos nuevos en Ubrique</p>
+    <main>
+        
+        
+        <div id="miModal" class="modal">
+        
+        <div class="modal-content">
+            <p>Esta pagina ha sido creada por los desarrolladores Noel, Francisco y Esteban</p>
+            <button id="btnCerrar">Cerrar</button>
+            </div>
+        </div>
+
+
+
+
+       <h2 id="title">COCHES</h2>
+        <section>
+        <!-- Coches-->
+            
+
+            <article>
+                
+                <h3 class="coche">MERCEDES AMG A 45</h3>
+                <p>Es un coche de alta gama</p>
+    
+                <ul>
+                
+                    <li><strong>Características</strong> 
+                    
+                        <ul>
+                            <li>22500€</li>
+                            <li>190cv</li>
+                            <li>blanco</li>
+                            <li>gasolina</li>
+                        </ul>
+                    </li>
+                </ul>
+                <img src="{{ url_for('static', filename='img/AMG.jpg') }}" alt="MERCEDES AMG" width="200">
+                
+                
+            </article>
+
+            <article>
+                <h3 class="coche">AUDI R8</h3>
+                <p>Coche deportivo de nueva generación</p>
+    
+                <ul>
+                    <li><strong>Características</strong> 
+                    
+                        <ul>
+                            <li>287500€</li>
+                            <li>290cv</li>
+                            <li>blanco</li>
+                            <li>gasolina</li>
+                        </ul>
+                    </li>
+                </ul>
+                <img src="{{ url_for('static', filename='img/audi.jpg') }}" alt="AUDI" width="200">
+                
+                
+            </article>
+
+
+            <article>
+                <h3 class="coche">Lamborginin Huracan</h3>
+                <p>De los mejores coches de nuestro mercado</p>
+    
+                <ul>
+                    <li><strong>Características</strong> 
+                    
+                        <ul>
+                            <li>355500€</li>
+                            <li>590cv</li>
+                            <li>Rojo</li>
+                            <li>gasolina</li>
+                        </ul>
+                    </li>
+                </ul>
+                <img src="{{ url_for('static', filename='img/lambo.jpg') }}" alt="Lamborgini" width="200">
+                
+                
+            </article>
+        
+
+
+            
+        <section>
+    
+        <ul>
+
+        
+            {% for item in items %}
+                <li>{{ item.id }} - marca: {{ item.marca }} -modelo: {{ item. modelo}} -precio: {{item.precio}} -cv: {{item.cv}} -color:{{item.color}} -combustible: {{item.combustible}} -disponible: {{item.disponible}}
+                </li>
+            {% endfor %}
+
+
+        </ul>      
+
+
+    </main>
+    <hr>
+    <!-- Final de la página donde se encuentra el botón de modo noche-->
+    <footer>
+        <button id="btnOcultar">Ocultar título</button>
+        <button id="btnAbrir">Abrir modal</button>
+        <button id="boton-magico">Modo noche</button>
+        <!-- Final en el que se muestra mi contacto y redes-->
+       <h2>Contacto y Redes Sociales:</h2>
+        <em>+34 6789578</em>
+        <a href="https://www.pexels.com/es-es/buscar/coches%20deportivos%20mercedes/">Más Información</a>
+    </footer>
+    <!-- Cargar el script desde la carpeta static (evita rutas relativas incorrectas) -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+<strong>Noel, Francisco, Esteban</strong>
+</html>

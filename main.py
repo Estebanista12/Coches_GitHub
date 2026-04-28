@@ -15,9 +15,7 @@ class Coche:
         self.color = color
         self.combustible = combustible
         self.disponible = disponible
-        self.imagen = imagen 
-
-    
+        self.imagen = imagen
 
     def __str__(self):
         estado = "Disponible" if self.disponible else "No Disponible"
@@ -101,10 +99,6 @@ class App:
         tk.Label(frame_form, text="Fecha (AAAA-MM-DD):", bg="#C8F7F0").grid(row=3, column=0)
         self.fecha = tk.Entry(frame_form)
         self.fecha.grid(row=3, column=1)
-
-        tk.Label(frame_form, text="Imagen:", bg="#C8F7F0").grid(row=3, column=2)
-        self.imagen = tk.Entry(frame_form)
-        self.imagen.grid(row=3, column=3)
 
         # BOTONES 
         tk.Button(frame_botones, text="Añadir Coche", bg="#71FF1F", command=self.añadir).grid(row=0, column=0, padx=10)
