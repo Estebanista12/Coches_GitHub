@@ -52,6 +52,14 @@ class DatabaseManager:
             """)
         return self.cursor.fetchall()
 
+    def obtener_coche_por_id(self, id_c):
+        """Devuelve una fila (tupla) del coche con id=id_c o None si no existe."""
+        self.cursor.execute(
+            "SELECT id, marca, modelo, precio, cv, color, combustible, fecha, disponible FROM Coche WHERE id=?",
+            (id_c,)
+        )
+        return self.cursor.fetchone()
+
     def modificar(self, marca, modelo, precio, cv, color, combustible, fecha, id_c):
         self.cursor.execute("""
         UPDATE Coche 

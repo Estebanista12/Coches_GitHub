@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+        <head>
+            <meta charset="utf-8">
+            <title>Detalle del Coche</title>
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        </head>
+        <body>
+            <a href="{{ url_for('ver_coleccion') }}">← Volver a la colección</a>
+            {% if item %}
+                <h1>{{ item.marca }} {{ item.modelo }}</h1>
+                <p><strong>Precio:</strong> {{ item.precio }}€</p>
+                <p><strong>CV:</strong> {{ item.cv }}</p>
+                <p><strong>Color:</strong> {{ item.color }}</p>
+                <p><strong>Combustible:</strong> {{ item.combustible }}</p>
+                <p><strong>Fecha:</strong> {{ item.fecha }}</p>
+                <p><strong>Disponible:</strong> {{ 'Sí' if item.disponible else 'No' }}</p>
+            {% else %}
+                <h1>Coche no encontrado</h1>
+                <p>No existe ningún coche con id {{ id_item }}.</p>
+            {% endif %}
+        </body>
+</html>

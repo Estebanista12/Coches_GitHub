@@ -37,7 +37,8 @@
 
 
        <h2 id="title">COCHES</h2>
-        <section>
+
+            <section>
         <!-- Coches-->
             
 
@@ -108,17 +109,19 @@
 
             
         <section>
-    
-        <ul>
+        <ul class="galeria">
 
-        
+
             {% for item in items %}
-                <li>{{ item.id }} - marca: {{ item.marca }} -modelo: {{ item. modelo}} -precio: {{item.precio}} -cv: {{item.cv}} -color:{{item.color}} -combustible: {{item.combustible}} -disponible: {{item.disponible}}
+             
+                <li>
+                    <a class="card-link" href="{{ url_for('ver_detalle', id_item=item.id) }}">
+                        {{ item.id }} - marca: {{ item.marca }} - modelo: {{ item.modelo }} - precio: {{ item.precio }} - cv: {{ item.cv }} - color: {{ item.color }} - combustible: {{ item.combustible }} - disponible: {{ item.disponible }}
+                    </a>
                 </li>
             {% endfor %}
 
-
-        </ul>      
+        </ul>
 
 
     </main>
