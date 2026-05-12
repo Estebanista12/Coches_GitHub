@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox, ttk, filedialog
 import datetime
 import json
+import os
+import shutil
 from databasemanager import DatabaseManager
 
 
@@ -43,7 +45,7 @@ class App:
 
         menu_archivo = tk.Menu(self.barra_menu, tearoff=0)
         self.barra_menu.add_cascade(label="Archivo", menu=menu_archivo)
-        menu_archivo.add_command(label="Exportar JSON", command=self.exportar_json)  # <-- SOLO en menú
+        menu_archivo.add_command(label="Exportar JSON", command=self.exportar_json)
         menu_archivo.add_separator()
         menu_archivo.add_command(label="Salir", command=self.ventana.destroy)
 
@@ -100,6 +102,13 @@ class App:
         self.fecha = tk.Entry(frame_form)
         self.fecha.grid(row=3, column=1)
 
+        # Selector de imagen (dentro de __init__)
+        tk.Label(frame_form, text="Imagen (archivo):", bg="#C8F7F0").grid(row=4, column=0)
+        self.imagen_path = tk.StringVar()
+        self.imagen_entry = tk.Entry(frame_form, textvariable=self.imagen_path)
+        self.imagen_entry.grid(row=4, column=1)
+        tk.Button(frame_form, text="Seleccionar...", command=self.seleccionar_imagen).grid(row=4, column=2)
+
         # BOTONES 
         tk.Button(frame_botones, text="Añadir Coche", bg="#71FF1F", command=self.añadir).grid(row=0, column=0, padx=10)
         tk.Button(frame_botones, text="Modificar Coche", bg="#F7F436", command=self.modificar).grid(row=0, column=1, padx=10)
@@ -134,12 +143,19 @@ class App:
                 return False
         return True
 
+    def seleccionar_imagen(self):
+        ruta = filedialog.askopenfilename(title="Seleccionar imagen",
+                                          filetypes=[("Imagenes", "*.png *.jpg *.jpeg *.gif")])
+        if ruta:
+            self.imagen_path.set(ruta)
+
     # CRUD
     def actualizar_lista(self, termino_busqueda=None):
         self.lista.delete(0, tk.END)
         coches = self.db.obtener_coches(termino_busqueda)
         for c in coches:
-            id_c, marca, modelo, precio, cv, color, combustible, fecha, disp = c
+            # filas: id, marca, modelo, precio, cv, color, combustible, imagen, fecha, disponible
+            id_c, marca, modelo, precio, cv, color, combustible, imagen, fecha, disp = c
             estado = "Disponible" if disp else "No Disponible"
             texto = f"{id_c} - {marca} {modelo} | {precio}€ | {cv}CV | {color} | {combustible} | {fecha} | {estado}"
             self.lista.insert(tk.END, texto)
@@ -151,20 +167,52 @@ class App:
             return None
 
     def añadir(self):
-        if not self.validar(): return
+        if not self.validar():
+            return
         if self.db.existe_coche(self.marca.get(), self.modelo.get()):
             messagebox.showwarning("Duplicado", "El coche ya existe en la base de datos")
             return
+
+        imagen_nombre = None
+        if self.imagen_path.get():
+            try:
+                origen = self.imagen_path.get()
+                imagen_nombre = os.path.basename(origen)
+                destino_dir = os.path.join(os.path.dirname(__file__), 'static', 'img')
+                os.makedirs(destino_dir, exist_ok=True)
+                shutil.copy(origen, os.path.join(destino_dir, imagen_nombre))
+            except Exception as e:
+                messagebox.showwarning("Imagen", f"No se pudo copiar la imagen: {e}")
+
         self.db.añadir(self.marca.get(), self.modelo.get(), self.precio.get(), self.cv.get(),
-                        self.color.get(), self.combustible.get(), self.fecha.get())
+                       self.color.get(), self.combustible.get(), self.fecha.get(), imagen_nombre)
         self.actualizar_lista()
         self.limpiar()
 
     def modificar(self):
         id_c = self.get_id()
-        if not id_c or not self.validar(): return
+        if not id_c or not self.validar():
+            return
+
+        imagen_nombre = None
+        if self.imagen_path.get():
+            try:
+                origen = self.imagen_path.get()
+                imagen_nombre = os.path.basename(origen)
+                destino_dir = os.path.join(os.path.dirname(__file__), 'static', 'img')
+                os.makedirs(destino_dir, exist_ok=True)
+                shutil.copy(origen, os.path.join(destino_dir, imagen_nombre))
+            except Exception as e:
+                messagebox.showwarning("Imagen", f"No se pudo copiar la imagen: {e}")
+        else:
+            # conservar la imagen existente
+            coches = self.db.obtener_coches()
+            fila = [r for r in coches if r[0] == id_c]
+            if fila:
+                imagen_nombre = fila[0][7]
+
         self.db.modificar(self.marca.get(), self.modelo.get(), self.precio.get(), self.cv.get(),
-                          self.color.get(), self.combustible.get(), self.fecha.get(), id_c)
+                          self.color.get(), self.combustible.get(), self.fecha.get(), id_c, imagen_nombre)
         self.actualizar_lista()
 
     def eliminar(self):
@@ -184,7 +232,8 @@ class App:
         if id_c:
             coches = self.db.obtener_coches()
             datos = [c for c in coches if c[0] == id_c][0]
-            _, marca, modelo, precio, cv, color, combustible, fecha, _ = datos
+            # filas: id, marca, modelo, precio, cv, color, combustible, imagen, fecha, disponible
+            _, marca, modelo, precio, cv, color, combustible, imagen, fecha, _ = datos
             self.marca.delete(0, tk.END)
             self.modelo.delete(0, tk.END)
             self.precio.delete(0, tk.END)
@@ -197,8 +246,8 @@ class App:
             self.cv.insert(0, cv)
             self.color.insert(0, color)
             self.fecha.insert(0, fecha)
+            self.imagen_path.set("")
             self.combustible.set(combustible)
-
     def limpiar(self):
         self.marca.delete(0, tk.END)
         self.modelo.delete(0, tk.END)
@@ -206,6 +255,57 @@ class App:
         self.cv.delete(0, tk.END)
         self.color.delete(0, tk.END)
         self.fecha.delete(0, tk.END)
+        self.imagen_path.set("")
+
+    # BÚSQUEDA
+    def buscar_coches(self):
+        self.actualizar_lista(self.campo_busqueda.get())
+
+    def limpiar_busqueda(self):
+        self.campo_busqueda.delete(0, tk.END)
+        self.actualizar_lista()
+
+    # EXPORTAR JSON (solo desde menú Archivo)
+    def exportar_json(self):
+        archivo = filedialog.asksaveasfilename(title="Guardar archivo JSON", defaultextension=".json",
+                                               filetypes=[("JSON","*.json")])
+        if not archivo:
+            return
+        try:
+            coches = self.db.obtener_coches()
+            lista = []
+            for c in coches:
+                _, marca, modelo, precio, cv, color, combustible, imagen, fecha, _ = c
+                lista.append({'marca': marca, 'modelo': modelo, 'precio': precio, 'cv': cv, 'color': color,
+                              'combustible': combustible, 'fecha': fecha, 'imagen': imagen})
+            with open(archivo, 'w', encoding='utf-8') as f:
+                json.dump(lista, f, indent=4)
+            messagebox.showinfo("Exportación", "Datos exportados correctamente")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    # ACERCA DE
+    def mostrar_acerca_de(self):
+        ventana = tk.Toplevel(self.ventana)
+        ventana.title("Acerca de")
+        ventana.geometry("300x200")
+        ventana.grab_set()
+        ventana.transient(self.ventana)
+        tk.Label(ventana, text="Gestor de Coches v1.0").pack(pady=20)
+        tk.Label(ventana, text="Hecho por Noel Fran y Esteban").pack(pady=5)
+        tk.Button(ventana, text="Cerrar", command=ventana.destroy).pack(pady=20)
+
+    # CERRAR APP
+    def cerrar_app(self):
+        self.db.close()
+        self.ventana.destroy()
+
+
+if __name__ == "__main__":
+    ventana = tk.Tk()
+    app = App(ventana)
+    ventana.mainloop()
+
 
     # BÚSQUEDA
     def buscar_coches(self):

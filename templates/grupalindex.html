@@ -37,91 +37,35 @@
 
 
        <h2 id="title">COCHES</h2>
-
-            <section>
+        <section>
         <!-- Coches-->
             
 
-            <article>
-                
-                <h3 class="coche">MERCEDES AMG A 45</h3>
-                <p>Es un coche de alta gama</p>
-    
-                <ul>
-                
-                    <li><strong>Características</strong> 
-                    
-                        <ul>
-                            <li>22500€</li>
-                            <li>190cv</li>
-                            <li>blanco</li>
-                            <li>gasolina</li>
-                        </ul>
-                    </li>
-                </ul>
-                <img src="{{ url_for('static', filename='img/AMG.jpg') }}" alt="MERCEDES AMG" width="200">
-                
-                
-            </article>
-
-            <article>
-                <h3 class="coche">AUDI R8</h3>
-                <p>Coche deportivo de nueva generación</p>
-    
-                <ul>
-                    <li><strong>Características</strong> 
-                    
-                        <ul>
-                            <li>287500€</li>
-                            <li>290cv</li>
-                            <li>blanco</li>
-                            <li>gasolina</li>
-                        </ul>
-                    </li>
-                </ul>
-                <img src="{{ url_for('static', filename='img/audi.jpg') }}" alt="AUDI" width="200">
-                
-                
-            </article>
-
-
-            <article>
-                <h3 class="coche">Lamborginin Huracan</h3>
-                <p>De los mejores coches de nuestro mercado</p>
-    
-                <ul>
-                    <li><strong>Características</strong> 
-                    
-                        <ul>
-                            <li>355500€</li>
-                            <li>590cv</li>
-                            <li>Rojo</li>
-                            <li>gasolina</li>
-                        </ul>
-                    </li>
-                </ul>
-                <img src="{{ url_for('static', filename='img/lambo.jpg') }}" alt="Lamborgini" width="200">
-                
-                
-            </article>
-        
-
-
-            
-        <section>
-        <ul class="galeria">
-
 
             {% for item in items %}
-             
-                <li>
-                    <a class="card-link" href="{{ url_for('ver_detalle', id_item=item.id) }}">
-                        {{ item.id }} - marca: {{ item.marca }} - modelo: {{ item.modelo }} - precio: {{ item.precio }} - cv: {{ item.cv }} - color: {{ item.color }} - combustible: {{ item.combustible }} - disponible: {{ item.disponible }}
-                    </a>
-                </li>
+                <article class="coche-item">
+                    <div class="coche-datos">
+                        <h2 class="coche-nombre">{{ item.nombre }}</h2>
+                        <p><strong>Marca:</strong> {{ item.marca }}</p>
+                        <p><strong>Modelo:</strong> {{ item.modelo }}</p>
+                        <p><strong>Precio:</strong> {{ item.precio }}€</p>
+                        <p><strong>CV:</strong> {{ item.cv }} cv</p>
+                        <p><strong>Color:</strong> {{ item.color }}</p>
+                        <p><strong>Combustible:</strong> {{ item.combustible }}</p>
+                        <p><strong>Disponible:</strong> {% if item.disponible %}Sí{% else %}No{% endif %}</p>
+                    </div>
+                    <div class="coche-imagen">
+                        {% if item.imagen %}
+                            <img src="{{ url_for('static', filename='img/' ~ item.imagen) }}" alt="{{ item.nombre }}" width="200">
+                        {% endif %}
+                    </div>
+                </article>
             {% endfor %}
 
-        </ul>
+
+        <section>
+    
+      
 
 
     </main>

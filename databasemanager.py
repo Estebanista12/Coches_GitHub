@@ -1,7 +1,9 @@
 import sqlite3
 
+
 class DatabaseManager:
     def __init__(self, db_path):
+        # Conexión simple; para apps multi-hilo deberías abrir por petición
         self.conexion = sqlite3.connect(db_path)
         self.cursor = self.conexion.cursor()
         self.crear_tabla()
@@ -17,55 +19,64 @@ class DatabaseManager:
             cv TEXT,
             color TEXT,
             combustible TEXT,
-            disponible INTEGER DEFAULT 1,
-            imagen TEXT
+            imagen TEXT,
+            fecha TEXT,
+            disponible INTEGER DEFAULT 1
         )
         """)
         self.conexion.commit()
 
     def verificar_columnas(self):
+        # Asegura que columnas mínimas existen (migración simple)
         self.cursor.execute("PRAGMA table_info(Coche)")
         columnas = [col[1] for col in self.cursor.fetchall()]
+        if 'imagen' not in columnas:
+            self.cursor.execute("ALTER TABLE Coche ADD COLUMN imagen TEXT")
+            self.conexion.commit()
         if 'fecha' not in columnas:
             self.cursor.execute("ALTER TABLE Coche ADD COLUMN fecha TEXT")
             self.conexion.commit()
 
-    def añadir(self, marca, modelo, precio, cv, color, combustible, fecha):
-        self.cursor.execute("""
-        INSERT INTO Coche (marca, modelo, precio, cv, color, combustible, fecha)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (marca, modelo, precio, cv, color, combustible, fecha))
+    def añadir(self, marca, modelo, precio, cv, color, combustible, fecha=None, imagen=None):
+        """Inserta un coche. fecha e imagen son opcionales."""
+        self.cursor.execute(
+            """
+            INSERT INTO Coche (marca, modelo, precio, cv, color, combustible, imagen, fecha)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (marca, modelo, precio, cv, color, combustible, imagen, fecha),
+        )
         self.conexion.commit()
 
     def obtener_coches(self, termino_busqueda=None):
         if termino_busqueda:
             termino = f"%{termino_busqueda}%"
-            self.cursor.execute("""
-            SELECT id, marca, modelo, precio, cv, color, combustible, fecha, disponible
-            FROM Coche
-            WHERE marca LIKE ? OR modelo LIKE ? OR color LIKE ?
-            """, (termino, termino, termino))
+            self.cursor.execute(
+                """
+                SELECT id, marca, modelo, precio, cv, color, combustible, imagen, fecha, disponible
+                FROM Coche
+                WHERE marca LIKE ? OR modelo LIKE ? OR color LIKE ?
+                """,
+                (termino, termino, termino),
+            )
         else:
-            self.cursor.execute("""
-            SELECT id, marca, modelo, precio, cv, color, combustible, fecha, disponible
-            FROM Coche
-            """)
+            self.cursor.execute(
+                """
+                SELECT id, marca, modelo, precio, cv, color, combustible, imagen, fecha, disponible
+                FROM Coche
+                """
+            )
         return self.cursor.fetchall()
 
-    def obtener_coche_por_id(self, id_c):
-        """Devuelve una fila (tupla) del coche con id=id_c o None si no existe."""
+    def modificar(self, marca, modelo, precio, cv, color, combustible, fecha, id_c, imagen=None):
         self.cursor.execute(
-            "SELECT id, marca, modelo, precio, cv, color, combustible, fecha, disponible FROM Coche WHERE id=?",
-            (id_c,)
+            """
+            UPDATE Coche
+            SET marca=?, modelo=?, precio=?, cv=?, color=?, combustible=?, imagen=?, fecha=?
+            WHERE id=?
+            """,
+            (marca, modelo, precio, cv, color, combustible, imagen, fecha, id_c),
         )
-        return self.cursor.fetchone()
-
-    def modificar(self, marca, modelo, precio, cv, color, combustible, fecha, id_c):
-        self.cursor.execute("""
-        UPDATE Coche 
-        SET marca=?, modelo=?, precio=?, cv=?, color=?, combustible=?, fecha=?
-        WHERE id=?
-        """, (marca, modelo, precio, cv, color, combustible, fecha, id_c))
         self.conexion.commit()
 
     def eliminar(self, id_c):
@@ -74,7 +85,10 @@ class DatabaseManager:
 
     def cambiar_estado(self, id_c):
         self.cursor.execute("SELECT disponible FROM Coche WHERE id=?", (id_c,))
-        estado = self.cursor.fetchone()[0]
+        fila = self.cursor.fetchone()
+        if not fila:
+            return
+        estado = fila[0]
         nuevo = 0 if estado == 1 else 1
         self.cursor.execute("UPDATE Coche SET disponible=? WHERE id=?", (nuevo, id_c))
         self.conexion.commit()

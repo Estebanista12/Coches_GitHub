@@ -15,6 +15,11 @@
                 <p><strong>Combustible:</strong> {{ item.combustible }}</p>
                 <p><strong>Fecha:</strong> {{ item.fecha }}</p>
                 <p><strong>Disponible:</strong> {{ 'Sí' if item.disponible else 'No' }}</p>
+                {% if item.imagen %}
+                    <div class="imagen-detalle">
+                        <img src="{{ url_for('static', filename='img/' ~ item.imagen) }}" alt="{{ item.marca }} {{ item.modelo }}" width="300">
+                    </div>
+                {% endif %}
             {% else %}
                 <h1>Coche no encontrado</h1>
                 <p>No existe ningún coche con id {{ id_item }}.</p>
